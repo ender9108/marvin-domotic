@@ -1,0 +1,99 @@
+general:
+  add: ajouter
+  return: retour
+  save: sauvegarder
+  close: fermer
+  image: image
+  name: nom
+  description: description
+  email: email
+  general: général
+  configuration: configuration
+  actions: actions
+  no_data: aucune donnée
+  reboot: redémarrer
+  start: démmarrer
+  stop: arrêter
+  message:
+    save: enregistrement effectué avec succès !
+
+rooms:
+  room: pièce
+  rooms: pièces
+  list: liste des pièces
+  create: création d'une pièce
+  areasize: superficie
+  message:
+    delete: êtes-vous sûre de vouloir supprimer cette pièce ?
+
+modules:
+  modules: modules
+  module: module
+  list: liste des modules
+  create: création d'un module
+  vendor: marque
+  commands: commandes
+  property: propriété
+  state: état
+  value: valeur
+  unique_identifier: identifiant
+  display_on_dashboard: afficher sur la page d'acceuil
+  message:
+    delete: êtes-vous sûre de vouloir supprimer ce module ?
+
+protocols:
+  protocols: protocols
+  protocol: protocol
+  list: liste des protocols
+  create: création d'un protocol
+  adding_module_allowed: mode inclusion
+  controller:
+    online: le protocol %protocol% est actif
+    offline: le protocol %protocol% est inactif
+  message:
+    delete: êtes-vous sûre de vouloir supprimer ce protocol ?
+
+users:
+  user: utilisateur
+  users: utilisateurs
+  list: liste des utilisateurs
+  create: création d'un utilisateur
+  firstname: prénom
+  lastname: nom
+  roles: rôles
+  password: mot de passe
+  confirm_password: confirmation
+  change_password: Changer de mot de passe
+  btn_delete_hidden: bouton supprimer désactiver car dernier utilisateur enregistré
+  error:
+    password_match: les mots de passe doivent être identiques
+    password_min_size: votre mot de passe doit avoir au minimum {{ limit }} caractères
+    incomplete_form: formulaire incomplet
+    no_identical: Le mot de passe et la confirmation ne sont pas identique.
+  message:
+    delete: êtes-vous sûre de vouloir supprimer cet utilisateur ?
+
+parameters:
+  parameters: paramètres
+  parameter: paramètre
+  restart_required: pour prendre en compte les modifications, vous devez redémarrer les services.
+  subtype:
+    mqtt: serveur mqtt
+    websocket: serveur websocket
+    wifi: wifi
+  mqtt:
+    host: serveur
+    port: port
+    username: utilisateur
+    password: mot de passe
+    client_id: id client
+    ca: SSL/TLS ca
+    key: SSL/TLS key
+    cert: SSL/TLS cert
+  websocket:
+    host: serveur
+    port: port
+    ssl: ssl
+  wifi:
+    ssid: ssid
+    password: mot de passe

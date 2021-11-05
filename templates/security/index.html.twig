@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} - {{ 'users.users'|trans|capitalize }}{% endblock %}
+
+{% block headerPage %}
+    <h1 class="h3 mb-4 row">
+        <div class="col-8">{{ 'users.list'|trans|capitalize }}</div>
+        <div class="col-4 text-end">
+            {% include 'partials/_add_button_bar.html.twig' with {
+                buttons: [{
+                    url: path('user.add'),
+                    class: 'success',
+                    label: 'general.add',
+                    icon: {
+                        type: 'fa',
+                        class: 'fas fa-plus'
+                    }
+                }]
+            } %}
+        </div>
+    </h1>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="card col-12">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table
+                            class="table table-hover"
+                            {{ stimulus_controller('data-table') }}
+                            data-data-table-length-change-value="true"
+                            data-data-table-searching-value="true"
+                            data-data-table-info-value="true"
+                            data-data-table-paging-value="true"
+                            data-data-table-secure-delete-value="true"
+                    >
+                        <thead>
+                        <tr>
+                            <th scope="col" class="no-sort no-searchable text-center">{{ 'general.actions'|trans|capitalize }}</th>
+                            <th scope="col">#</th>
+                            <th scope="col">{{ 'users.firstname'|trans|capitalize }}</th>
+                            <th scope="col">{{ 'users.lastname'|trans|capitalize }}</th>
+                            <th scope="col">{{ 'general.email'|trans|capitalize }}</th>
+                            <th scope="col">{{ 'users.roles'|trans|capitalize }}</th>
+                            <th scope="col" class="no-sort no-searchable text-center">{{ 'general.actions'|trans|capitalize }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td class="text-center">
+                                    <a href="{{ path('user.edit', {id: user.id}) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.firstname }}</td>
+                                <td>{{ user.lastname }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.roles|join(', ') }}</td>
+                                <td class="text-center">
+                                    {% if users|length > 1 %}
+                                        <a
+                                                href="#"
+                                                class="btn btn-sm btn-danger btn-delete-table-line"
+                                                data-url="{{ path('user.delete', {id: user.id}) }}"
+                                                data-token="{{ csrf_token('user_delete_' ~ user.id) }}"
+                                                data-message="{{ 'users.message.delete'|trans|capitalize }}"
+                                        >
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    {% else %}
+                                        <i><small class="text-danger">{{ 'users.btn_delete_hidden'|trans|capitalize }}</small></i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% trans_default_domain 'messages' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Marvin {% block title %}{% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:locale" content="fr_FR">
+
+        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}">
+
+        {{ encore_entry_link_tags('app') }}
+        {% block stylesheets %}{% endblock %}
+
+        {{ encore_entry_script_tags('app') }}
+        {% block javascripts %}{% endblock %}
+    </head>
+    {% set flashMessages = app.session.flashBag.all() %}
+    <body
+            {{ stimulus_controller({'flash-message': {}, 'message-center': {}, 'sidebar': {}}) }}
+            data-flash-message-messages-value="{{ flashMessages|length == 0 ? '{}' : flashMessages|json_encode }}"
+            data-message-center-websocket-host-value="{{ websocket.host }}"
+            data-message-center-websocket-port-value="{{ websocket.port }}"
+            data-message-center-websocket-ssl-value="{{ websocket.ssl == '' ? false : true }}"
+    >
+        <div class="wrapper">
+            {% include 'partials/_aside.html.twig' %}
+
+            <div class="main">
+                {% include 'partials/_header.html.twig' %}
+                <main class="content">
+                    <div class="container-fluid p-0">
+                        {% block headerPage %}{% endblock %}
+                        {% block body %}{% endblock %}
+                    </div>
+                </main>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} - {{ 'protocols.protocols'|trans|capitalize }}{% endblock %}
+
+{% block headerPage %}
+    <h1 class="h3 mb-4 row">
+        <div class="col-8">{{ 'protocols.list'|trans|capitalize }}</div>
+        <div class="col-4 text-end"></div>
+    </h1>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="card col-12">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table
+                            class="table table-hover"
+                            {{ stimulus_controller('data-table') }}
+                            data-data-table-length-change-value="true"
+                            data-data-table-searching-value="true"
+                            data-data-table-info-value="true"
+                            data-data-table-paging-value="true"
+                    >
+                        <thead>
+                        <tr>
+                            <th scope="col" class="no-sort no-searchable text-center">{{ 'general.actions'|trans|capitalize }}</th>
+                            <th scope="col">#</th>
+                            <th scope="col" class="no-sort no-searchable">{{ 'general.image'|trans|capitalize }}</th>
+                            <th scope="col">{{ 'general.name'|trans|capitalize }}</th>
+                            <th scope="col">{{ 'general.description'|trans|capitalize }}</th>
+                            <th scope="col" class="no-sort no-searchable text-center">{{ 'general.actions'|trans|capitalize }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for protocol in protocols %}
+                            <tr>
+                                <td class="text-center">
+                                    {% if protocol.actionEditPath is not null and routeExists(protocol.actionEditPath) %}
+                                        <a href="{{ path(protocol.actionEditPath, {id: protocol.id}) }}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    {% endif %}
+                                </td>
+                                <td>{{ protocol.id }}</td>
+                                <td>
+                                    {% if protocol.path is not null and protocol.path != '' %}
+                                        <img class="img-rounded" alt="{{ protocol.name }}" src="{{ vich_uploader_asset(protocol, 'uploadedFile')|imagine_filter('thumb') }}">
+                                    {% endif %}
+                                </td>
+                                <td>{{ protocol.name }}</td>
+                                <td>{{ protocol.description }}</td>
+                                <td class="text-center">
+                                    {% if protocol.actionDeletePath is not null and routeExists(protocol.actionDeletePath) %}
+                                        <a
+                                                href="#"
+                                                class="btn btn-sm btn-danger btn-delete-table-line"
+                                                data-url="{{ path(protocol.actionDeletePath, {id: protocol.id}) }}"
+                                                data-token="{{ csrf_token('protocol_delete_' ~ protocol.id) }}"
+                                                data-message="{{ 'protocols.message.delete'|trans|capitalize }}"
+                                        >
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

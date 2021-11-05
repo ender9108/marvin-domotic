@@ -1,0 +1,52 @@
+<div
+        class="avatar-upload"
+        {{ stimulus_controller('single-image-uploader', { mimetypes: mimetypes is defined ? mimetypes : []}) }}
+>
+    <div class="avatar-edit">
+        <label for="{{ formField.vars.id }}_file"></label>
+    </div>
+    <div class="avatar-preview">
+        <div
+                id="imagePreview"
+                style="background-image: url({{
+                filename is null or
+                filename|trim == '' or
+                entity is not defined ?
+                '' :
+                vich_uploader_asset(entity, fieldUpload)|imagine_filter('thumb')
+                }});"
+        ></div>
+    </div>
+    <div class="avatar-hidden">
+        {{ form_widget(formField, {attr: {
+            'data-single-image-uploader-target': 'uploadField',
+            'data-action': 'change->single-image-uploader#inputChange'
+        }}) }}
+    </div>
+    <div class="alert alert-danger d-none mt-2 text-center" id="avatar-upload-error" role="alert"></div>
+</div>
+
+{#
+<div
+        class="picture-uploader"
+        {{ stimulus_controller('single-image-uploader', { mimetypes: mimetypes is defined ? mimetypes : []}) }}
+>
+    <div class="picture-circle">
+        <img src="{{
+        filename is null or
+        filename|trim == '' or
+        entity is not defined ?
+        '' :
+        vich_uploader_asset(entity, fieldUpload)|imagine_filter('thumb')
+        }}">
+    </div>
+    <div class="picture-upload">
+        <i class="far fa-edit upload-button" data-action="click->single-file-uploader#openFileSelector"></i>
+        {{ form_widget(formField, {attr: {
+            'data-single-image-uploader-target': 'uploadField',
+            'data-action': 'change->single-image-uploader#inputChange'
+        }}) }}
+    </div>
+    <div class="alert alert-danger d-none mt-2 text-center" id="picture-upload-error" role="alert"></div>
+</div>
+     #}

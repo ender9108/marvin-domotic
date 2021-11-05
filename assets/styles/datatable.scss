@@ -1,0 +1,42 @@
+.dataTables_filter {
+  margin-bottom: 15px !important;
+}
+
+.dataTables_filter label {
+  font-weight: 700 !important;
+  color: #495057 !important;
+}
+
+.dataTables_filter .form-control:focus {
+  color: #495057 !important;
+  background-color: #fff !important;
+  border-color: #cae1f6 !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 0.2rem rgba(148, 194, 237, 0.25) !important;
+}
+
+.dataTables_filter .form-control {
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  color: #495057 !important;
+  background-color: #fff !important;
+  background-clip: padding-box !important;
+  border: 1px solid #ced4da !important;
+  appearance: none !important;
+  border-radius: 0.2rem !important;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+.dataTables_paginate {
+  margin-top: 15px !important;
+}
+
+/*.dataTables_paginate .page-link {
+  color: $blue2;
+}
+
+.dataTables_paginate .page-item.active a {
+  background-color: $blue2 !important;
+  border-color: $blue2 !important;
+}*/

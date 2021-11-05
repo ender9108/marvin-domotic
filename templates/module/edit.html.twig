@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} - {{ module is defined ? module.name : 'modules.create'|trans|capitalize }}{% endblock %}
+
+{% block body %}
+    {{ form_start(form, {attr: {
+        'data-controller': 'form-validator unsaved-changes',
+        'novalidate': ''
+    }}) }}
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                        <h1 class="h3">
+                            <i class="fas fa-wifi"></i>
+                            {{ module is defined ? module.name : 'modules.create'|trans|capitalize }}
+                        </h1>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-sm-2 mt-md-2 mt-lg-0 mt-xl-0 mt-xxl-0 text-lg-end text-xl-end text-xxl-end">
+                        <a class="btn btn-secondary" href="{{ path('module.index') }}">
+                            <i class="fas fa-arrow-left"></i> {{ 'general.return'|trans|capitalize }}
+                        </a>
+                        <button type="submit" class="btn btn-success" id="btn-form-save"><i class="fas fa-save"></i> {{ 'general.save'|trans|capitalize }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <ul class="nav nav-pills mb-4">
+                    <li class="nav-item">
+                        <a
+                                class="nav-link active"
+                                aria-current="page"
+                                href="#"
+                                data-bs-toggle="tab"
+                                data-bs-target="#general"
+                        >
+                            {{ 'general.general'|trans|capitalize }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                                class="nav-link"
+                                href="#"
+                                data-bs-toggle="tab"
+                                data-bs-target="#command"
+                        >
+                            {{ 'modules.commands'|trans|capitalize }}
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content mt-5" id="myTabContent">
+                    <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+                        <div class="row mb-4">
+                            <div class="col-lg-3">
+                                {% include 'partials/_single_image_uploader.html.twig' with {
+                                    entity: (module ?? null),
+                                    filename: (module.path ?? null),
+                                    type: 'file',
+                                    formField: form.uploadedFile,
+                                    fieldUpload: 'uploadedFile',
+                                    extensions: ['jpg', 'jpeg', 'gif', 'png'],
+                                    title: 'general.image'|trans|capitalize,
+                                    mimetypes: ['image/jpeg', 'image/gif', 'image/png']
+                                } %}
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-xl-9 col-lg-9">
+                                {{ form_row(form.name) }}
+                                {{ form_row(form.uniqueIdentifier) }}
+                                {{ form_row(form.isDisplayOnDashboard) }}
+                                {{ form_row(form.vendor) }}
+                                {{ form_row(form.room) }}
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-12">{{ form_row(form.description) }}</div>
+                        </div>
+                    </div>
+                    {#
+                    <div class="tab-pane fade show" id="state" role="tabpanel" aria-labelledby="state-tab">
+                        <div class="table-responsive">
+                            <table
+                                    class="table table-hover"
+                                    {{ stimulus_controller('data-table') }}
+                            >
+                                <thead>
+                                    <tr>
+                                        <th scope="col">{{ 'modules.property'|trans|capitalize }}</th>
+                                        <th scope="col">{{ 'modules.value'|trans|capitalize }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for command in module.moduleCommands %}
+                                        <tr>
+                                            <td>{{ command.name|trans({}, 'modules')|capitalize }}</td>
+                                            <td>
+                                                {{ displayModuleValue(module.data, command) }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    #}
+                    <div class="tab-pane fade show" id="command" role="tabpanel" aria-labelledby="command-tab">
+                        <div class="table-responsive">
+                            <table class="table table-hover" data-controller="data-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">{{ 'general.name'|trans|capitalize }}</th>
+                                        <th scope="col">{{ 'modules.value'|trans|capitalize }}</th>
+                                        <th scope="col">{{ 'modules.property'|trans|capitalize }}</th>
+                                        <th scope="col">{{ 'general.description'|trans|capitalize }}</th>
+                                        <th scope="col" class="no-sort no-searchable text-center">{{ 'general.actions'|trans|capitalize }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for command in module.moduleCommands %}
+                                    <tr>
+                                        <td>{{ command.id }}</td>
+                                        <td>{{ command.name|trans({}, 'modules')|capitalize }}</td>
+                                        <td><b>{{ displayModuleValue(module.data, command) }}</b></td>
+                                        <td>{{ command.property }}</td>
+                                        <td>{{ command.description|trans({}, 'modules')|capitalize }}</td>
+                                        <td class="text-center">
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

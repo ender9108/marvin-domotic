@@ -1,0 +1,22 @@
+zigbee2mqtt:
+  name: nom
+  description: description
+  adding_module_allowed: mode inclusion
+  new_device_added: nouveau module %module% ajouté
+  bridge_state_update: mise à jour du statut de la passerelle zigbee à %state%
+  friendly_name_update: Le "friendly_name" du module %module% passe de %from% à %to%
+  topics: channels
+  events:
+    module_updated: le module %module% à été mis à jour
+    device_joined: le module %module% à rejoint le réseau zigbee
+    device_annouced: le module %module% c'est annoncé sur le réseau zigbee
+    device_leave: le module %module% est parti du réseau zigbee
+    device_interview:
+      started: le module %module% est en court d'interview
+      failed: l'interview du module %module% à échouée
+      successful: l'interview du module %module% à été effectuée avec succès
+  error:
+    unknown_error: erreur inconnu
+    topic_not_enable: le topic %topic% n'est pas activé
+    method_not_exist: la méthode %method% n'existe pas
+    device_not_found: le module %module% est inconnu

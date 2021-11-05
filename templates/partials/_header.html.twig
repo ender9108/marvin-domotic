@@ -1,0 +1,35 @@
+{% if app.user is not null %}
+    <nav class="navbar navbar-expand navbar-light navbar-bg">
+        <a class="sidebar-toggle js-sidebar-toggle">
+            <i class="hamburger align-self-center"></i>
+        </a>
+
+        <ul class="navbar-nav navbar-align ms-5">
+            {{ render(controller('App\\Controller\\ProtocolController::displayProtocolOnHeader', {'controller': controller_name})) }}
+        </ul>
+
+        <div class="navbar-collapse collapse">
+            <ul class="navbar-nav navbar-align">
+                <li class="nav-item ms-5">
+                    <a href="#" class="btn btn-danger pt-2">
+                        <i class="fas fa-power-off"></i> {{ 'general.reboot'|trans|capitalize }}
+                    </a>
+                </li>
+                <li class="nav-item dropdown ms-5">
+                    <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+                        <span class="text-dark">
+                            {{ app.user.firstname ~ ' ' ~ app.user.lastname }}
+                        </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="{{ path('user.edit', {id: app.user.id}) }}">
+                            <i class="far fa-user"></i> Profile
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path('app_logout') }}">Déconexion</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endif %}

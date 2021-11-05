@@ -1,0 +1,20 @@
+<ul class="sidebar-nav">
+    {% for menu in menus %}
+        <li class="sidebar-header">
+            {{ menu.title }}
+        </li>
+
+        {% for submenu in menu.menus %}
+            {% if submenu.isEnable and is_granted(submenu.role) %}
+                <li class="sidebar-item {{ submenu.activeToken == controller ? 'active' }}">
+                    <a class="sidebar-link" href="{{ path(submenu.path) }}">
+                        <span class="menu-icon">
+                            <i class="{{ submenu.icon }} fs-3"></i>
+                        </span>
+                        <span class="align-middle">{{ submenu.title }}</span>
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+</ul>

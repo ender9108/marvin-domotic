@@ -1,0 +1,84 @@
+@import "./variables";
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "./adminkit/app.scss";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~@fortawesome/fontawesome-free/scss/regular.scss";
+@import "~@fortawesome/fontawesome-free/scss/brands.scss";
+@import '~datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+@import "./datatable";
+@import "picture-uploader";
+@import "~notyf/notyf.min.css";
+
+/** ********** TURBO ********** */
+body.turbo-loading {
+  opacity: .8;
+}
+
+[data-turbo-preview] body {
+    opacity: .2;
+}
+
+/** ********** HEADER ********* */
+.nav-item .indicator {
+  top: 2px !important;
+  right: 12px !important;
+}
+
+.dropdown-toggle.dropdown-toggle-protocol::after {
+  vertical-align: -0.5em !important;
+}
+
+/** ******** PROTOCOL ******** */
+.adding-module-allowed {
+  margin-top: 3px;
+}
+
+/** ********** IMAGE ********** */
+.img-rounded {
+  border-radius: 50%;
+  float: left;
+  height: 40px;
+  width: 40px;
+}
+
+.img-rounded-sm {
+  height: 30px;
+  width: 30px;
+}
+
+/** ********** FORM ********** */
+.form-label,
+.form-check-label {
+  font-weight: 600 !important;
+}
+
+.form-label:first-letter,
+.form-check-label:first-letter {
+  text-transform: capitalize !important;
+}
+
+.form-check .form-check-input {
+  font-size: 1.4em;
+  margin-left: -16px;
+  margin-right: 10px;
+}
+
+.form-check .form-check-label {
+  margin-top: 6px;
+}
+
+.col-form-label {
+  font-weight: 600 !important;
+  text-transform: capitalize !important;
+}
+
+.form-switch-lg > .form-check-input {
+  font-size: 1.5em !important;
+  margin-left: -30px !important;
+  margin-right: 10px !important;
+}
+
+.form-switch-lg > label {
+  margin-top: 5px !important;
+}

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} - {{ room is defined ? room.name : 'rooms.create'|trans|capitalize }}{% endblock %}
+
+{% block body %}
+    {{ form_start(form, {attr: {
+        'data-controller': 'form-validator unsaved-changes',
+        'novalidate': ''
+    }}) }}
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                        <h1 class="h3">
+                            <i class="fas fa-wifi"></i>
+                            {{ room is defined ? room.name : 'rooms.create'|trans|capitalize }}
+                        </h1>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-sm-2 mt-md-2 mt-lg-0 mt-xl-0 mt-xxl-0 text-lg-end text-xl-end text-xxl-end">
+                        <a class="btn btn-secondary" href="{{ path('room.index') }}">
+                            <i class="fas fa-arrow-left"></i> {{ 'general.return'|trans|capitalize }}
+                        </a>
+                        <button type="submit" class="btn btn-success" id="btn-form-save"><i class="fas fa-save"></i> {{ 'general.save'|trans|capitalize }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-lg-3">
+                        {% include 'partials/_single_image_uploader.html.twig' with {
+                            entity: (room ?? null),
+                            filename: (room.path ?? null),
+                            type: 'file',
+                            formField: form.uploadedFile,
+                            fieldUpload: 'uploadedFile',
+                            extensions: ['jpg', 'jpeg', 'gif', 'png'],
+                            title: 'general.image'|trans|capitalize,
+                            mimetypes: ['image/jpeg', 'image/gif', 'image/png']
+                        } %}
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-xl-9 col-lg-9">
+                        {{ form_row(form.name) }}
+                        {{ form_row(form.areasize) }}
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">{{ form_row(form.description) }}</div>
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

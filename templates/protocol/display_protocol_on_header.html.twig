@@ -1,0 +1,34 @@
+{% if protocols|length > 0 %}
+    {% for protocol in protocols %}
+        <li class="nav-item d-flex me-2">
+            <div class="position-relative protocol-info" title="{{ protocol.name ~ ' - ' ~ protocol.state }}">
+                <a class="nav-link dropdown-toggle dropdown-toggle-protocol d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+                    <img
+                            class="img-rounded-sm"
+                            alt="{{ protocol.name ~ ' - ' ~ protocol.state }}"
+                            src="{{ protocol.path is not null and protocol.path != '' ? vich_uploader_asset(protocol, 'uploadedFile')|imagine_filter('thumb') }}"
+                    >
+                    <span class="indicator {{ protocol.state == 'online' ? 'bg-success' : 'bg-danger' }} {{ protocol.tag ~ '_state' }}">
+                        <i class="fas fa-broadcast-tower adding-module-allowed {{ protocol.tag ~ '_permit-join' }} {{ protocol.addingModuleAllowed == false ? 'd-none' }}"></i>
+                    </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-start">
+                    <div class="dropdown-header">{{ protocol.name }}</div>
+                    <a
+                            class="dropdown-item {{ protocol.state != 'online' ? 'd-none' }} protocol-adding-module-allowed"
+                            href="#"
+                            data-state-on="{{ 'general.start'|trans|capitalize }}"
+                            data-state-off="{{ 'general.stop'|trans|capitalize }}"
+                    >
+                        <i class="fas fa-broadcast-tower"></i>
+                        <span class="state-label">{{ protocol.addingModuleAllowed ? 'general.stop'|trans|capitalize : 'general.start'|trans|capitalize }}</span>
+                        {{ 'protocols.adding_module_allowed'|trans }}
+                    </a>
+                    <a class="dropdown-item protocol-reboot" href="#">
+                        <i class="fas fa-power-off"></i> {{ 'general.reboot'|trans|capitalize }}
+                    </a>
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+{% endif %}

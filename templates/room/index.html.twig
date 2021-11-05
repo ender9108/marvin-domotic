@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} - {{ 'rooms.rooms'|trans|capitalize }}{% endblock %}
+
+{% block headerPage %}
+    <h1 class="h3 mb-4 row">
+        <div class="col-8">{{ 'rooms.list'|trans|capitalize }}</div>
+        <div class="col-4 text-end">
+            {% include 'partials/_add_button_bar.html.twig' with {
+                buttons: [{
+                    url: path('room.add'),
+                    class: 'success',
+                    label: 'general.add',
+                    icon: {
+                        type: 'fa',
+                        class: 'fas fa-plus'
+                    }
+                }]
+            } %}
+        </div>
+    </h1>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="card col-12">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table
+                            class="table table-hover"
+                            {{ stimulus_controller('data-table') }}
+                            data-data-table-length-change-value="true"
+                            data-data-table-searching-value="true"
+                            data-data-table-info-value="true"
+                            data-data-table-paging-value="true"
+                    >
+                        <thead>
+                            <tr>
+                                <th scope="col" class="no-sort no-searchable text-center">{{ 'general.actions'|trans|capitalize }}</th>
+                                <th scope="col">#</th>
+                                <th scope="col" class="no-sort no-searchable">{{ 'general.image'|trans|capitalize }}</th>
+                                <th scope="col">{{ 'general.name'|trans|capitalize }}</th>
+                                <th scope="col">{{ 'general.description'|trans|capitalize }}</th>
+                                <th scope="col">{{ 'rooms.areasize'|trans|capitalize }}</th>
+                                <th scope="col" class="no-sort no-searchable text-center">{{ 'general.actions'|trans|capitalize }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for room in rooms %}
+                                <tr>
+                                    <td class="text-center">
+                                        <a href="{{ path('room.edit', {id: room.id}) }}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                    <td>{{ room.id }}</td>
+                                    <td>
+                                        {% if room.path is not null and room.path != '' %}
+                                            <img class="img-rounded" alt="{{ room.name }}" src="{{ vich_uploader_asset(room, 'uploadedFile')|imagine_filter('thumb') }}">
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ room.name }}</td>
+                                    <td>{{ room.description }}</td>
+                                    <td>{{ room.areasize }} m2</td>
+                                    <td class="text-center">
+                                        <a
+                                                href="#"
+                                                class="btn btn-sm btn-danger btn-delete-table-line"
+                                                data-url="{{ path('room.delete', {id: room.id}) }}"
+                                                data-token="{{ csrf_token('room_delete_' ~ room.id) }}"
+                                                data-message="{{ 'rooms.message.delete'|trans|capitalize }}"
+                                        >
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

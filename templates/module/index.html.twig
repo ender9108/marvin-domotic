@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} - {{ 'modules.modules'|trans|capitalize }}{% endblock %}
+
+{% block headerPage %}
+    <h1 class="h3 mb-4 row">
+        <div class="col-8">{{ 'modules.list'|trans|capitalize }}</div>
+        <div class="col-4 text-end">
+            {# {% include 'partials/_add_button_bar.html.twig' with {
+                buttons: [{
+                    url: path('room.add'),
+                    class: 'success',
+                    label: 'general.add',
+                    icon: {
+                        type: 'fa',
+                        class: 'fas fa-plus'
+                    }
+                }]
+            } %} #}
+        </div>
+    </h1>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="card col-12">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table
+                            class="table table-hover"
+                            {{ stimulus_controller('data-table') }}
+                            data-data-table-length-change-value="true"
+                            data-data-table-searching-value="true"
+                            data-data-table-info-value="true"
+                            data-data-table-paging-value="true"
+                    >
+                        <thead>
+                        <tr>
+                            <th scope="col" class="no-sort no-searchable text-center">{{ 'general.actions'|trans|capitalize }}</th>
+                            <th scope="col">#</th>
+                            <th scope="col" class="no-sort no-searchable">{{ 'general.image'|trans|capitalize }}</th>
+                            <th scope="col">{{ 'general.name'|trans|capitalize }}</th>
+                            <th scope="col">{{ 'general.description'|trans|capitalize }}</th>
+                            <th scope="col">{{ 'protocols.protocol'|trans|capitalize }}</th>
+                            <th scope="col">{{ 'rooms.room'|trans|capitalize }}</th>
+                            <th scope="col">{{ 'modules.vendor'|trans|capitalize }}</th>
+                            <th scope="col" class="no-sort no-searchable text-center">{{ 'general.actions'|trans|capitalize }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for module in modules %}
+                            <tr>
+                                <td class="text-center">
+                                    <a href="{{ path('module.edit', {id: module.id}) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                                <td>{{ module.id }}</td>
+                                <td>
+                                    {% if module.path is not null and module.path != '' %}
+                                        <img class="img-rounded" alt="{{ module.name }}" src="{{ vich_uploader_asset(module, 'uploadedFile')|imagine_filter('thumb') }}">
+                                    {% endif %}
+                                </td>
+                                <td>{{ module.name }}</td>
+                                <td>{{ module.description }}</td>
+                                <td>
+                                    {% if module.protocol is not null and module.protocol.path is not null and module.protocol.path != '' %}
+                                        <img
+                                                class="img-rounded-sm"
+                                                title="{{ module.protocol.name }}"
+                                                alt="{{ module.protocol.name }}"
+                                                src="{{ vich_uploader_asset(module.protocol, 'uploadedFile')|imagine_filter('thumb') }}"
+                                        >
+                                    {% endif %}
+                                </td>
+                                <td>{{ module.room ? module.room.name }}</td>
+                                <td>
+                                    {% if module.vendor is not null and module.vendor.path is not null and module.vendor.path != '' %}
+                                        <img
+                                                class="img-rounded"
+                                                alt="{{ module.vendor.name }}"
+                                                title="{{ module.vendor.name }}"
+                                                src="{{ vich_uploader_asset(module.vendor, 'uploadedFile')|imagine_filter('thumb') }}"
+                                        >
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    <a
+                                            href="#"
+                                            class="btn btn-sm btn-danger btn-delete-table-line"
+                                            data-url="{{ path('module.delete', {id: module.id}) }}"
+                                            data-token="{{ csrf_token('module_delete_' ~ module.id) }}"
+                                            data-message="{{ 'modules.message.delete'|trans|capitalize }}"
+                                    >
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

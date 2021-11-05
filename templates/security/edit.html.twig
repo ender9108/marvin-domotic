@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} - {{ user is defined ? user.firstname ~ ' ' ~ user.lastname : 'users.create'|trans|capitalize }}{% endblock %}
+
+{% block body %}
+    {{ form_start(form, {attr: {
+        'data-controller': 'form-validator unsaved-changes',
+        'novalidate': ''
+    }}) }}
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                        <h1 class="h3">
+                            <i class="fas fa-wifi"></i>
+                            {{ user is defined ? user.firstname ~ ' ' ~ user.lastname : 'users.create'|trans|capitalize }}
+                        </h1>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-sm-2 mt-md-2 mt-lg-0 mt-xl-0 mt-xxl-0 text-lg-end text-xl-end text-xxl-end">
+                        <a class="btn btn-secondary" href="{{ path('user.index') }}">
+                            <i class="fas fa-arrow-left"></i> {{ 'general.return'|trans|capitalize }}
+                        </a>
+                        <button type="submit" class="btn btn-success" id="btn-form-save"><i class="fas fa-save"></i> {{ 'general.save'|trans|capitalize }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-sm-12 col-lg-8">
+                        {{ form_row(form.firstname) }}
+                        {{ form_row(form.lastname) }}
+                        {{ form_row(form.email) }}
+                    </div>
+                    <div class="col-sm-12 col-lg-4">
+                        {{ form_row(form.roles) }}
+                        {% if user is not defined %}
+                            {{ form_row(form.password) }}
+                        {% else %}
+                            <a class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#passwordModal">
+                                <i class="fas fa-unlock-alt"></i> {{ 'users.change_password'|trans|capitalize }}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+
+    {% if user is defined %}
+        <div
+                class="modal fade"
+                id="passwordModal"
+                tabindex="-1"
+                aria-labelledby="passwordModalLabel"
+                aria-hidden="true"
+                {{ stimulus_controller('change-password') }}
+                data-change-password-user-id-value="{{ user.id }}"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="passwordModalLabel">{{ 'users.change_password'|trans|capitalize }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-danger d-none" id="change-password-alert" role="alert"></div>
+
+                        <div class="row mb-4 justify-content-start">
+                            <div class="col-12">
+                                <label for="user_firstname" class="form-label">{{ 'users.password'|trans|capitalize }}</label>
+                                <input type="password" class="form-control" placeholder="Mot de passe" name="password" id="password" minlength="6">
+                            </div>
+                        </div>
+
+                        <div class="row mb-4 justify-content-start">
+                            <div class="col-12">
+                                <label for="user_firstname" class="form-label">{{ 'users.confirm_password'|trans|capitalize }}</label>
+                                <input type="password" class="form-control" placeholder="Mot de passe" name="confirm_password" id="confirm_password" minlength="6">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'general.close'|trans|capitalize }}</button>
+                        <a class="btn btn-success" id="btn-change-password"><i class="fas fa-save"></i> {{ 'general.save'|trans|capitalize }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

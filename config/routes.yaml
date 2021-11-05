@@ -1,0 +1,6 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+zigbee2mqtt_annotations:
+  resource: '../src/Plugins/Zigbee2Mqtt/Controller/'
+  type:     annotation

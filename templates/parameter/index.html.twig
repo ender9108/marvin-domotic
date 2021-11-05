@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} - {{ 'parameters.parameters'|trans|capitalize }}{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form, {attr: {
+        'data-controller': 'form-validator unsaved-changes',
+        'novalidate': ''
+    }}) }}
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                        <h1 class="h3">
+                            <i class="fas fa-cogs"></i>
+                            {{ 'parameters.parameters'|trans|capitalize }}
+                        </h1>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-sm-2 mt-md-2 mt-lg-0 mt-xl-0 mt-xxl-0 text-lg-end text-xl-end text-xxl-end">
+                        <button type="submit" class="btn btn-success" id="btn-form-save"><i class="fas fa-save"></i> {{ 'general.save'|trans|capitalize }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <ul class="nav nav-pills mt-4" id="tab-parameters" role="tablist">
+                    {% set previous = null %}
+                    {% for parameterfields in form.parameters %}
+                        {% if previous != parameterfields.vars.data.tag|split('.')[1] %}
+                            <li class="nav-item">
+                                <a
+                                        class="nav-link {{ previous is null ? 'active' }}"
+                                        id="{{ parameterfields.vars.data.tag|split('.')[1] }}-tab"
+                                        aria-controls="{{ parameterfields.vars.data.tag|split('.')[1] }}"
+                                        aria-selected="{{ previous is null ? 'true' : 'false' }}"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#{{ parameterfields.vars.data.tag|split('.')[1] }}"
+                                >
+                                    {{ ('parameters.subtype.' ~ parameterfields.vars.data.tag|split('.')[1])|trans|capitalize }}
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% set previous = parameterfields.vars.data.tag|split('.')[1] %}
+                    {% endfor %}
+                </ul>
+
+                <div class="tab-content mt-5" id="tab-parameters-content">
+                    {% set previous = null %}
+                    {% for index, parameterfields in form.parameters %}
+                        {% if previous is not null and previous != parameterfields.vars.data.tag|split('.')[1] %}
+                            </div>
+                        {% endif %}
+
+                        {% if
+                            index == 0 or
+                            previous != parameterfields.vars.data.tag|split('.')[1]
+                        %}
+                            <div
+                                class="tab-pane fade {{ previous is null ? 'show active' }}"
+                                id="{{ parameterfields.vars.data.tag|split('.')[1] }}"
+                                role="tabpanel"
+                                aria-labelledby="{{ parameterfields.vars.data.tag|split('.')[1] }}-tab"
+                            >
+                        {% endif %}
+
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                {{ form_widget(parameterfields) }}
+                            </div>
+                        </div>
+
+                        {% set previous = parameterfields.vars.data.tag|split('.')[1] %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

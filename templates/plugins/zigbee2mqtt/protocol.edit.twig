@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+{% trans_default_domain 'messages' %}
+
+{% block title %} - {{ protocol is defined ? protocol.name : 'general.create'|trans|capitalize }}{% endblock %}
+
+{% block body %}
+    {{ form_start(form, {attr: {
+        'data-controller': 'form-validator unsaved-changes',
+        'novalidate': ''
+    }}) }}
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                    <h1 class="h3">
+                        <i class="fas fa-wifi"></i>
+                        {{ protocol is defined ? protocol.name : 'general.create'|trans|capitalize }}
+                    </h1>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-sm-2 mt-md-2 mt-lg-0 mt-xl-0 mt-xxl-0 text-lg-end text-xl-end text-xxl-end">
+                    <a class="btn btn-secondary" href="{{ path('protocol.index') }}">
+                        <i class="fas fa-arrow-left"></i> {{ 'general.return'|trans|capitalize }}
+                    </a>
+                    <button type="submit" class="btn btn-success" id="btn-form-save"><i class="fas fa-save"></i> {{ 'general.save'|trans|capitalize }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <ul class="nav nav-pills mb-4">
+                <li class="nav-item">
+                    <a
+                            class="nav-link active"
+                            aria-current="page"
+                            href="#"
+                            data-bs-toggle="tab"
+                            data-bs-target="#general"
+                    >
+                        {{ 'general.general'|trans|capitalize }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a
+                            class="nav-link"
+                            href="#"
+                            data-bs-toggle="tab"
+                            data-bs-target="#config"
+                    >
+                        {{ 'general.configuration'|trans|capitalize }}
+                    </a>
+                </li>
+                <li class="nav-item">
+
+                    <a
+                            class="nav-link"
+                            href="#"
+                            data-bs-toggle="tab"
+                            data-bs-target="#topic"
+                    >
+                        {{ 'zigbee2mqtt.topics'|trans({}, 'zigbee2mqtt.messages')|capitalize }}
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content mt-5" id="myTabContent">
+                <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            {% include 'partials/_single_image_uploader.html.twig' with {
+                                entity: (protocol ?? null),
+                                filename: (protocol.path ?? null),
+                                type: 'file',
+                                formField: form.uploadedFile,
+                                fieldUpload: 'uploadedFile',
+                                extensions: ['jpg', 'jpeg', 'gif', 'png'],
+                                title: 'general.image'|trans|capitalize,
+                                mimetypes: ['image/jpeg', 'image/gif', 'image/png']
+                            } %}
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-xl-9 col-lg-9">
+                            {{ form_row(form.name) }}
+                            {{ form_row(form.description) }}
+
+                            <div class="form-check form-switch form-switch-lg">
+                                <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        id="{{ form.addingModuleAllowed.vars.id }}"
+                                        name="{{ form.addingModuleAllowed.vars.full_name }}"
+                                        value="1"
+                                        {{ form.addingModuleAllowed.vars.data == true ? ' checked="checked"' }}
+                                >
+                                <label class="form-check-label" for="{{ form.addingModuleAllowed.vars.id }}">
+                                    {{ form.addingModuleAllowed.vars.label|trans({}, 'zigbee2mqtt.messages')|capitalize }}
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="config" role="tabpanel" aria-labelledby="config-tab">Config</div>
+                <div class="tab-pane fade" id="topic" role="tabpanel" aria-labelledby="topic-tab">Topics</div>
+            </div>
+
+        </div>
+    </div>
+    {{ form_row(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+{% endblock %}

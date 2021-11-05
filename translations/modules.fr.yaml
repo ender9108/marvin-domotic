@@ -1,0 +1,17 @@
+battery: batterie
+temperature: température
+humidity: humidité
+voltage: voltage
+linkquality: qualité du lien
+contact: fermé
+battery_low: batterie faible
+'true': oui
+'false': non
+Remaining battery in %: Batterie restante en %
+Measured temperature value: Valeur de température mesurée
+Measured relative humidity: Humidité mesurée
+Voltage of the battery in millivolts: Tension de la batterie en millivolts
+Link quality (signal strength): Qualité de la liaison (force du signal)
+Indicates if the contact is closed (= true) or open (= false): Indique si le contact est fermé (= vrai) ou ouvert (= faux)
+Indicates if the battery of this device is almost empty: Indique si la batterie de cet appareil est presque vide
+
